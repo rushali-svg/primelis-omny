@@ -58,5 +58,4 @@ The transcript also references a previously started table and a seller-based vie
 
 ## Open Questions
 - What exactly does the KPI labeled “LTP” mean?
-- Should the user-facing language be optimized primarily for Ops, or for a broader internal audience?
 - What should the final naming be for the “cohort” or “customer breakdown” surface if product terminology changes later?
