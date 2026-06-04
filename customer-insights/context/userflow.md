@@ -9,6 +9,14 @@
 6. If the data is missing or incomplete, the user reads the explanation instead of assuming the view is broken.
 7. The user may switch surfaces to compare different aspects of the same account.
 
+## Secondary User Flow: LTV per ASIN Tab
+1. The user selects the `LTV per ASIN` tab.
+2. The user confirms the seller context and currency.
+3. The user toggles between Revenue and Margin.
+4. The user scans the ASIN table to compare product-level value.
+5. The user reads `Entry Customers`, `Total`, and `LTV / 1st` to understand relative performance.
+6. The user interprets the stacked `LTV Breakdown` bar to see how value is distributed across 1st Purchase, Entry Repeat, and Cross Repeat.
+
 ## Secondary User Flow: Insufficient History
 1. The user opens a Customer Insights view.
 2. The system detects that the account does not have enough history for a 12-month rolling calculation.
@@ -30,3 +38,4 @@
 - Do not hide missing-data states behind empty cells with no explanation.
 - Do not expose undefined KPI meanings as if they were final product decisions.
 - Keep the surface readable even when data conditions differ across accounts.
+- Keep the `LTV per ASIN` tab name stable across docs and designs.

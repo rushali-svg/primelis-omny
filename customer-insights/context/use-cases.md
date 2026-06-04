@@ -12,7 +12,7 @@ The user opens the LTV tab to understand customer value over the relevant histor
 The user opens the customer breakdown view to understand how the customer base is split across purchase, entry, repeat, and cross-repeat behavior. The surface should help the user see not only totals, but also the mix behind those totals.
 
 ### 3. Review LTV per ASIN
-The user opens the LTV per ASIN view to compare products and understand which ASINs contribute most to customer value. The view should support product-level interpretation rather than forcing the user to infer it from raw numbers alone.
+The user opens the `LTV per ASIN` tab to compare products and understand which ASINs contribute most to customer value. The view should support product-level interpretation rather than forcing the user to infer it from raw numbers alone.
 
 ### 4. Switch between Customer Insights surfaces
 The user moves between LTV, customer breakdown, and LTV per ASIN to compare different perspectives on the same account. The experience should keep the account context stable so the user can compare surfaces without re-orienting themselves.
@@ -22,6 +22,15 @@ The user looks at a seller or vendor account and needs the UI to adapt to that a
 
 ### 6. Understand the history window behind a KPI
 The user wants to know what time range is actually being used for a metric. When the KPI depends on 12 rolling months or another explicit history window, the UI should make that dependency visible.
+
+### 7. Choose the correct metric mode
+The user switches between Revenue and Margin to compare the ASIN table in different business contexts. The view should clearly reflect the selected metric mode without changing the meaning of the table structure.
+
+### 8. Choose the correct currency
+The user changes currency so that the ASIN table matches the account’s reporting context. The view should present values in the selected currency while preserving the underlying ranking and composition logic.
+
+### 9. Compare products by breakdown
+The user reads the stacked `LTV Breakdown` bars to understand whether ASIN value comes mostly from first purchase, entry repeat, or cross repeat. The table should make the comparison easy to scan across many ASINs.
 
 ## Edge Cases
 
@@ -43,8 +52,18 @@ If a KPI appears in the transcript but its meaning is still unclear, such as “
 ### 6. Visible data but not meaningful data
 If a value is technically available but does not make sense in the current context, the UI should explain why it is not being emphasized. The goal is to prevent misleading interpretation when the data exists but is not valid for the current view.
 
+### 7. Small or narrow breakdown segments
+If one of the stacked breakdown segments is very small, the label may not fit inside the bar. The UI should still preserve the segment and avoid implying that the category is absent.
+
+### 8. Metric mode changes perception
+If the user switches from Revenue to Margin, the row order and comparison structure should remain understandable. The UI should not suggest that the same ASIN has become a different product story just because the metric mode changed.
+
+### 9. Currency conversion should not alter structure
+If the selected currency changes, the table values should update without changing the table meaning or the breakdown logic. The user should not lose row-to-row comparability when switching currencies.
+
 ## Design Rules
 - Prefer explanation over silent absence.
 - Do not present missing history as a normal empty state.
 - Keep account context visible wherever it affects interpretation.
 - Reuse the same language for data states across all Customer Insights surfaces.
+- Treat `LTV per ASIN` as a stable tab name, not a placeholder.

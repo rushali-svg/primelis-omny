@@ -14,12 +14,15 @@ Create a Customer Insights experience that:
 This brief covers the Customer Insights work referenced by Elodie in the transcript:
 - LTV tab
 - cohort or customer breakdown view
-- LTV per ASIN view
+- LTV per ASIN tab
 
-The transcript also references a previously started table and a seller-based view used by the Ops team. For this setup, those are treated as part of the same Customer Insights family rather than separate features.
+The transcript also references a previously started table and a seller-based view used by the Ops team. For this setup, those are treated as part of the same Customer Insights family rather than separate features. The screenshot makes the LTV per ASIN tab concrete: it is a seller-scoped, currency-aware comparison table over ASINs with a revenue/margin toggle and a breakdown by customer-value source.
 
 ## Core Requirements
 - Show revenue and margin where they are meaningful to the view.
+- Keep the tab label as `LTV per ASIN`.
+- Expose seller, currency, and metric mode controls in the tab header.
+- Show the ASIN comparison table with entry customers, total, `LTV / 1st`, and the stacked `LTV Breakdown`.
 - Preserve the 12 rolling month logic where it is required for the KPI.
 - Hide KPIs when the required history is not available instead of showing misleading placeholders.
 - Detect and explain vendor accounts using account-level information.
@@ -32,6 +35,8 @@ The transcript also references a previously started table and a seller-based vie
 - If a value exists but is only valid for a specific period window, the UI should say so.
 - If the issue is account type, history coverage, or data access, the UI should explain which one it is.
 - If the data is valid but not complete for the current view, the UI should still give the user enough context to understand why.
+- Switching between revenue and margin changes the displayed metric mode, but not the underlying ASIN comparison structure.
+- Currency affects display and comparison formatting, not whether the row is valid.
 
 ## In Scope
 - Defining the overall Customer Insights information model

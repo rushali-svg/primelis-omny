@@ -16,6 +16,7 @@ Last updated: 2026-06-04
 - `context/sitemap.md` complete
 - `context/userflow.md` complete
 - `context/use-cases.md` complete
+- `LTV per ASIN` tab structure refined from screenshot reference
 
 ## Concepts
 - None yet; ready for concept kickoff after kickoff decisions
