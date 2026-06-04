@@ -8,6 +8,29 @@ Customer Insights is a family of related internal analytics views centered on cu
 - Customer breakdown / cohort tab
 - LTV per ASIN tab
 
+## LTV per ASIN Tab Structure
+- Header controls
+  - Seller selector
+  - Currency selector
+  - Metric toggle: Revenue / Margin
+- Table summary
+  - Result count, such as `16 ASINs`
+- Table columns
+  - ASIN
+  - Product Name
+  - Entry Customers
+  - Total
+  - LTV / 1st
+  - LTV Breakdown
+- Breakdown legend
+  - 1st Purchase
+  - Entry Repeat
+  - Cross Repeat
+- Row rendering
+  - Stacked bar visualizes the breakdown composition
+  - Currency values are shown inside the bar segments where space allows
+  - Rows are ordered as a comparison list across ASINs
+
 ## Shared Supporting States
 - Account selector / seller context
 - Data availability state
@@ -32,6 +55,7 @@ Customer Insights is a family of related internal analytics views centered on cu
 - The UI should not depend on file movement or hidden states to explain data conditions.
 - Missing or incomplete data should be visible in the view itself.
 - Repeated explanations should be consistent across all Customer Insights surfaces.
+- Currency and metric mode changes should update the table display without changing the feature structure.
 
 ## Related Concept Boundaries
 - The feature is not a general reporting dashboard.
