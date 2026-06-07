@@ -2,7 +2,7 @@
 
 Lead: TBD
 Status: active
-Last updated: 2026-06-04
+Last updated: 2026-06-07
 
 ## Phase status
 - [x] Phase 1 — Context setup
@@ -12,6 +12,7 @@ Last updated: 2026-06-04
 
 ## Context
 - Raw transcript archived at `context/raw/omny_daily_ux_ui_june_01_transcript_from_uploaded_text.md`
+- Module overview stored at `context/module-brief.md`
 - `context/global-brief.md` complete
 - `context/sitemap.md` complete
 - `context/userflow.md` complete
