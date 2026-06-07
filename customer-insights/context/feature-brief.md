@@ -1,4 +1,4 @@
-# Customer Insights Global Brief
+# Customer Insights Feature Brief
 
 ## Problem Statement
 Customer Insights needs a clear, trustworthy set of views that help Ops and internal users understand customer value, customer mix, and the limits of the underlying data. The transcript shows that the team already has multiple related surfaces in play, but the current challenge is not only visual design: it is making the data meaning legible, especially when data is missing, incomplete, or only partially available.

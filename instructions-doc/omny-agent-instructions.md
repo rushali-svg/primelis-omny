@@ -40,11 +40,11 @@ Every feature on the Omny repo lives in its own top-level folder. The structure 
 > ├── raw/  
 > │ ├── meeting-transcript.md  
 > │ └── notion-export.md  
-> ├── global-brief.md  
+> ├── feature-brief.md  
 > ├── sitemap.md ← or feature-map.md depending on scope  
 > └── userflow.md ← or use-cases.md depending on scope  
 
-The raw/ folder holds original source material, untouched. Nothing in raw/ is ever edited. The three output documents — global-brief, sitemap, userflow — are derived from raw/ by the lead and represent the converted, structured context for the entire feature.
+The raw/ folder holds original source material, untouched. Nothing in raw/ is ever edited. The three output documents — feature-brief, sitemap, userflow — are derived from raw/ by the lead and represent the converted, structured context for the entire feature.
 
 **2.3 Concepts folder**
 
@@ -79,7 +79,7 @@ Every file in this system has a fixed purpose. No file should contain content th
 |                      |                                                                                                                                                                                                                        |
 |----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **File**             | **Purpose**                                                                                                                                                                                                            |
-| global-brief.md      | Single source of truth for the problem being solved. Defines the feature, the user, the constraints, and what success looks like. Every designer and AI agent reads this before starting any work.                     |
+| feature-brief.md     | Single source of truth for the problem being solved. Defines the feature, the user, the constraints, and what success looks like. Every designer and AI agent reads this before starting any work.                    |
 | sitemap.md           | Structural map of the product or feature scope. Prevents designers from going out of scope mid-iteration.                                                                                                              |
 | userflow.md          | User journey and use cases. Defines the flows that design must support.                                                                                                                                                |
 | concept-doc.md       | Written before any design starts. Contains: the approach, the logic behind it, what it prioritises, what it deliberately excludes, and the design plan. This is where product thinking lives.                          |
@@ -105,11 +105,11 @@ The workflow has four phases. Nobody moves to the next phase without the lead me
 
 **4.2 Phase 1 — Context setup**
 
-The lead converts raw inputs (meeting transcripts, Notion exports) into the three global documents: global-brief.md, sitemap.md, userflow.md. These are committed to /context/ and merged into main before any concept work begins.
+The lead converts raw inputs (meeting transcripts, Notion exports) into the three context documents: feature-brief.md, sitemap.md, userflow.md. These are committed to /context/ and merged into main before any concept work begins.
 
 **Phase gate — nothing in /concepts/ may be created until these are merged:**
 
-- global-brief.md exists and all sections are filled
+- feature-brief.md exists and all sections are filled
 
 - sitemap.md exists
 
@@ -312,7 +312,7 @@ This section is written directly for the AI agent. Read this section at the star
 
 **9.1 Session start — always do this first**
 
-- Read /context/global-brief.md
+- Read /context/feature-brief.md
 
 - Read the relevant concept-doc.md for the concept being worked on
 
@@ -477,7 +477,7 @@ For the designer: read this before starting any session.
 |                                     |                                                                                              |
 |-------------------------------------|----------------------------------------------------------------------------------------------|
 | **Situation**                       | **What to do**                                                                               |
-| Starting a new session              | Read global-brief → concept-doc → latest change-log → INDEX.md                               |
+| Starting a new session              | Read feature-brief → concept-doc → latest change-log → INDEX.md                              |
 | Starting a new concept              | Create concept folder, write concept-doc.md first, get lead approval before any design files |
 | Starting a new iteration            | Create iteration folder with INDEX.md and meta.json at the same time as design files         |
 | Made design changes                 | Update change-log for today before ending session                                            |
