@@ -1,7 +1,7 @@
 # Customer Insights Use Cases and Edge Cases
 
 ## Purpose
-This document captures the concrete scenarios and failure states that Elodie described for Customer Insights. It sits alongside the global brief, sitemap, and userflow so later concept and iteration work can refer to specific situations instead of re-reading the transcript.
+This document captures the concrete scenarios and failure states that Elodie described for Customer Insights. It sits alongside the feature brief, sitemap, and userflow so later concept and iteration work can refer to specific situations instead of re-reading the transcript.
 
 ## Use Cases
 
