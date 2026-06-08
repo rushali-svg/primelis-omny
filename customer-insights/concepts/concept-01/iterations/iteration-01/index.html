@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Omny Customer Insights - Concept 1 Iteration 01</title>
+  <style>
+    :root {
+      --font: "Figtree", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+      --shadow-lg: 0 32px 80px rgba(63, 47, 36, 0.18);
+      --shadow-md: 0 16px 40px rgba(63, 47, 36, 0.12);
+      --shadow-sm: 0 8px 20px rgba(63, 47, 36, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --line: rgba(94, 76, 63, 0.12);
+      --text: #2c2621;
+      --muted: #7b6f66;
+      --muted-2: #9c9085;
+      --brand: #fec9aa;
+      --brand-deep: #ea8a4f;
+      --white: #ffffff;
+      --bg: #f6f1eb;
+      --bg-2: #fbf8f5;
+      --shell: rgba(255, 255, 255, 0.86);
+      --shell-strong: rgba(255, 255, 255, 0.96);
+      --surface: #ffffff;
+      --surface-soft: #fff9f4;
+      --accent: #f2d8c4;
+      --accent-strong: #e59357;
+      --control-bg: #fffdfc;
+      --nav-bg: #191514;
+      --nav-border: rgba(255, 255, 255, 0.08);
+      --table-row: rgba(255, 255, 255, 0.72);
+      --table-row-alt: rgba(251, 248, 245, 0.94);
+      --tooltip-bg: rgba(33, 27, 24, 0.98);
+      --tooltip-text: rgba(255, 255, 255, 0.9);
+      --bar-first: linear-gradient(180deg, #8b4cf1, #7b33ea);
+      --bar-entry: linear-gradient(180deg, #11b39f, #0f9b8a);
+      --bar-cross: linear-gradient(180deg, #e68a05, #d97706);
+      --role-entry: #4f61f1;
+      --role-loyalty: #0d9688;
+      --role-gateway: #7d44ef;
+      --role-standalone: #c98700;
+      --role-high: #ad8207;
+      --role-none: #7b6f66;
+      --switch-bg: rgba(255, 255, 255, 0.88);
+      --switch-border: rgba(148, 126, 110, 0.14);
+    }
+
+    body[data-variant="v2"] {
+      --bg: #f2f0ee;
+      --bg-2: #fcfbfa;
+      --shell: rgba(255, 255, 255, 0.9);
+      --shell-strong: rgba(255, 255, 255, 0.98);
+      --control-bg: #ffffff;
+      --accent: #f8e2d0;
+      --accent-strong: #d97a3d;
+      --tooltip-bg: rgba(27, 23, 20, 0.98);
+      --nav-bg: #1d1815;
+      --table-row: rgba(255, 255, 255, 0.76);
+      --table-row-alt: rgba(248, 245, 242, 0.98);
+      --switch-bg: rgba(255, 255, 255, 0.96);
+    }
+
+    body[data-variant="v3"] {
+      --bg: #eef1f4;
+      --bg-2: #fbfcfd;
+      --shell: rgba(255, 255, 255, 0.84);
+      --shell-strong: rgba(255, 255, 255, 0.96);
+      --control-bg: #fdfefe;
+      --accent: #e9dfd5;
+      --accent-strong: #c57e4f;
+      --tooltip-bg: rgba(24, 30, 36, 0.98);
+      --nav-bg: #15181b;
+      --table-row: rgba(255, 255, 255, 0.66);
+      --table-row-alt: rgba(244, 248, 250, 0.95);
+      --switch-bg: rgba(247, 249, 250, 0.96);
+      --switch-border: rgba(120, 136, 149, 0.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(254, 201, 170, 0.22), transparent 36%),
+        radial-gradient(circle at bottom right, rgba(232, 231, 255, 0.28), transparent 24%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 22px;
+    }
+
+    button,
+    select {
+      font: inherit;
+    }
+
+    .app {
+      min-height: calc(100vh - 44px);
+      display: flex;
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.26);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.52);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav {
+      width: 76px;
+      background: linear-gradient(180deg, #1c1715, var(--nav-bg));
+      border-right: 1px solid var(--nav-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0 18px;
+      flex: none;
+    }
+
+    .nav__avatar,
+    .nav__logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #1b1817;
+      background: linear-gradient(180deg, #f8f2ec, #efe5db);
+      font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .nav__stack {
+      display: grid;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 0;
+      justify-items: center;
+      flex: 1;
+    }
+
+    .nav__item {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.68);
+      background: rgba(255,255,255,0.05);
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .nav__item.is-active {
+      color: #15110f;
+      background: #f6f0ea;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+
+    .panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.5)),
+        linear-gradient(180deg, #f7f8fa, #f3f5f8);
+    }
+
+    .topbar,
+    .tabbar,
+    .surfacebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 24px;
+      background: rgba(255, 255, 255, 0.72);
+      border-bottom: 1px solid rgba(124, 106, 94, 0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar {
+      min-height: 64px;
+    }
+
+    .tabbar {
+      min-height: 60px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .surfacebar {
+      background: rgba(248, 250, 251, 0.9);
+      border-bottom-color: rgba(124, 106, 94, 0.1);
+    }
+
+    .topbar__title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .topbar__title h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .topbar__title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .global-filters {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 222px;
+    }
+
+    .field--compact {
+      min-width: 188px;
+    }
+
+    .field__label {
+      margin-left: 8px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+      font-weight: 800;
+    }
+
+    .select {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(130, 116, 104, 0.22);
+      background: var(--control-bg);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.78);
+      color: #2f2924;
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .select::after {
+      content: "⌄";
+      color: #87786b;
+      font-size: 18px;
+      margin-left: auto;
+    }
+
+    .currency-pill {
+      min-height: 48px;
+      min-width: 106px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(130, 116, 104, 0.2);
+      font-size: 15px;
+      font-weight: 700;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .tabs {
+      display: inline-flex;
+      gap: 6px;
+      padding: 5px;
+      background: rgba(248, 241, 235, 0.88);
+      border: 1px solid rgba(151, 133, 119, 0.12);
+      border-radius: 999px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab {
+      border: 0;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .tab.is-active {
+      background: linear-gradient(180deg, #fffefc, #fff3e9);
+      color: #231d18;
+      box-shadow: inset 0 0 0 1px rgba(254, 201, 170, 0.7);
+    }
+
+    .surfacebar__group {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .metric-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .segmented {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      background: rgba(246, 241, 236, 0.9);
+      border: 1px solid rgba(151, 133, 119, 0.12);
+      border-radius: 16px;
+    }
+
+    .segmented button {
+      border: 0;
+      min-width: 94px;
+      min-height: 38px;
+      border-radius: 12px;
+      background: transparent;
+      color: #7d7268;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .segmented button.is-active {
+      color: #241e19;
+      background: linear-gradient(180deg, #fffdfb, #fff7f1);
+      box-shadow: 0 6px 16px rgba(68, 46, 32, 0.08);
+    }
+
+    .content {
+      flex: 1;
+      min-width: 0;
+      padding: 22px 24px 28px;
+      overflow: auto;
+    }
+
+    .content__wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      min-height: 32px;
+    }
+
+    .summary-row h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .summary-row h2 span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-left: 6px;
+    }
+
+    .note-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(254, 201, 170, 0.16);
+      border: 1px solid rgba(254, 201, 170, 0.4);
+      color: #6a584c;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .note-chip strong {
+      color: #3e332c;
+    }
+
+    .table-shell {
+      background: var(--shell);
+      border: 1px solid rgba(151, 133, 119, 0.14);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .table-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-variant-numeric: tabular-nums;
+    }
+
+    col.col-thumb { width: 56px; }
+    col.col-asin { width: 138px; }
+    col.col-product { width: 29%; }
+    col.col-entry { width: 132px; }
+    col.col-total { width: 106px; }
+    col.col-mult { width: 118px; }
+    col.col-role { width: 174px; }
+    col.col-break { width: auto; }
+
+    thead th {
+      padding: 18px 14px 16px;
+      text-align: left;
+      color: #6f655c;
+      font-size: 13px;
+      font-weight: 800;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,247,244,0.96));
+      border-bottom: 1px solid rgba(151, 133, 119, 0.14);
+      vertical-align: bottom;
+    }
+
+    thead .breakdown-head {
+      padding-bottom: 12px;
+    }
+
+    .th-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+    }
+
+    .info-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(143, 128, 116, 0.2);
+      background: rgba(255,255,255,0.94);
+      color: #776b61;
+      display: inline-grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: default;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    .help {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-tooltip {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 0;
+      width: 356px;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--tooltip-bg);
+      color: var(--tooltip-text);
+      box-shadow: 0 24px 48px rgba(18, 14, 11, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: opacity 140ms ease, transform 140ms ease;
+      z-index: 20;
+      text-align: left;
+    }
+
+    .header-tooltip::before {
+      content: "";
+      position: absolute;
+      left: 24px;
+      bottom: 100%;
+      border: 8px solid transparent;
+      border-bottom-color: var(--tooltip-bg);
+    }
+
+    .help:focus-within .header-tooltip,
+    .help:hover .header-tooltip {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .header-tooltip h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .header-tooltip > p {
+      margin: 0 0 12px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.76);
+    }
+
+    .legend-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 9px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .legend-item .icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .legend-item strong {
+      display: block;
+      font-size: 12px;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .legend-item span {
+      display: block;
+      font-size: 11px;
+      line-height: 1.35;
+      color: rgba(255,255,255,0.75);
+      font-weight: 500;
+    }
+
+    tbody tr {
+      background: var(--table-row);
+      border-bottom: 1px solid rgba(151, 133, 119, 0.09);
+      transition: background 150ms ease, transform 150ms ease;
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--table-row-alt);
+    }
+
+    tbody tr:hover {
+      background: linear-gradient(180deg, rgba(254, 201, 170, 0.12), rgba(255,255,255,0.95));
+    }
+
+    tbody td {
+      padding: 14px 14px;
+      vertical-align: middle;
+      color: #2d2722;
+      font-size: 15px;
+    }
+
+    .thumb {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(101, 82, 68, 0.12);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.78), rgba(255,255,255,0)),
+        linear-gradient(180deg, #f1d8b0, #e3b668);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumb::before,
+    .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 6px 5px;
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.95) 0 16%, transparent 16% 25%, rgba(255,255,255,0.88) 25% 54%, transparent 54% 62%, rgba(255,255,255,0.85) 62% 82%, transparent 82% 100%);
+      opacity: 0.62;
+    }
+
+    .thumb::after {
+      inset: auto 5px 5px 5px;
+      height: 7px;
+      background: rgba(84, 63, 46, 0.08);
+      opacity: 0.85;
+    }
+
+    .thumb[data-tone="green"] { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #d8eecb, #7fc37b); }
+    .thumb[data-tone="red"] { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #efc5bd, #d84e44); }
+    .thumb[data-tone="stone"] { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #ddd6d0, #90857b); }
+    .thumb[data-tone="gold"] { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #f2dc8a, #e6b31c); }
+    .thumb[data-tone="orange"] { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #f1c7aa, #e36e44); }
+    .thumb[data-tone="blue"] { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #bddcf0, #4a89c1); }
+    .thumb[data-tone="violet"] { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #e0d1f4, #a067cb); }
+    .thumb[data-tone="teal"] { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #d3f0e4, #54b890); }
+
+    .asin {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .product {
+      color: #4b433c;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .metric,
+    .currency {
+      text-align: center;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .currency {
+      color: #2e2823;
+    }
+
+    .mult {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-height: 48px;
+      width: 100%;
+      padding: 0 12px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #f9dcbc, #f5d0a9);
+      color: #d96f00;
+      font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.56);
+    }
+
+    .role-cell {
+      position: relative;
+    }
+
+    .role-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+      position: relative;
+      cursor: default;
+      outline: none;
+    }
+
+    .role-pill .glyph {
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .role-pill .tooltip {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 12px);
+      width: 284px;
+      transform: translateX(-50%) translateY(5px);
+      padding: 12px 12px 11px;
+      border-radius: 16px;
+      background: var(--tooltip-bg);
+      color: var(--tooltip-text);
+      box-shadow: 0 18px 34px rgba(18, 14, 11, 0.24);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 140ms ease, transform 140ms ease;
+      z-index: 14;
+      text-align: left;
+    }
+
+    .role-pill .tooltip::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      border: 8px solid transparent;
+      border-top-color: var(--tooltip-bg);
+    }
+
+    .role-pill:hover .tooltip,
+    .role-pill:focus-visible .tooltip {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .role-pill .tooltip strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    .role-pill .tooltip span {
+      display: block;
+      font-size: 12px;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.88);
+      font-weight: 500;
+    }
+
+    .entry-driver {
+      background: rgba(238, 242, 255, 0.96);
+      border-color: rgba(79, 97, 241, 0.2);
+      color: #4152e9;
+    }
+
+    .loyalty-builder {
+      background: rgba(228, 250, 247, 0.96);
+      border-color: rgba(13, 150, 136, 0.2);
+      color: #0b8f82;
+    }
+
+    .catalog-gateway {
+      background: rgba(241, 234, 254, 0.98);
+      border-color: rgba(125, 68, 239, 0.18);
+      color: #7940ee;
+    }
+
+    .standalone {
+      background: rgba(255, 247, 221, 0.98);
+      border-color: rgba(201, 135, 0, 0.22);
+      color: #c58400;
+    }
+
+    .high-value {
+      background: rgba(255, 245, 211, 0.98);
+      border-color: rgba(173, 130, 7, 0.2);
+      color: #af8408;
+    }
+
+    .no-tag {
+      background: rgba(239, 236, 233, 0.98);
+      border-color: rgba(123, 111, 102, 0.18);
+      color: var(--role-none);
+    }
+
+    .breakdown-cell {
+      position: relative;
+    }
+
+    .breakdown-target {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 40px;
+    }
+
+    .bar {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      min-height: 32px;
+      border-radius: 10px;
+      background: rgba(238, 233, 227, 0.66);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+      position: relative;
+    }
+
+    .segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      letter-spacing: -0.01em;
+    }
+
+    .segment--first {
+      background: var(--bar-first);
+    }
+
+    .segment--entry {
+      background: var(--bar-entry);
+    }
+
+    .segment--cross {
+      background: var(--bar-cross);
+    }
+
+    .breakdown-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      flex: none;
+    }
+
+    .cell-tooltip {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 12px);
+      width: 360px;
+      padding: 14px;
+      border-radius: 18px;
+      background: var(--tooltip-bg);
+      color: var(--tooltip-text);
+      box-shadow: 0 22px 40px rgba(18, 14, 11, 0.22);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 140ms ease, transform 140ms ease;
+      z-index: 18;
+    }
+
+    .cell-tooltip::before {
+      content: "";
+      position: absolute;
+      left: 26px;
+      bottom: 100%;
+      border: 8px solid transparent;
+      border-bottom-color: var(--tooltip-bg);
+    }
+
+    .breakdown-cell:hover .cell-tooltip,
+    .breakdown-cell:focus-within .cell-tooltip {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .cell-tooltip h4 {
+      margin: 0 0 6px;
+      font-size: 13px;
+    }
+
+    .cell-tooltip p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .cell-tooltip .mini-bar {
+      display: flex;
+      overflow: hidden;
+      min-height: 24px;
+      border-radius: 8px;
+      margin: 10px 0 12px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .cell-tooltip .mini-bar span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .cell-tooltip .details {
+      display: grid;
+      gap: 8px;
+    }
+
+    .detail {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 11px;
+      color: rgba(255,255,255,0.84);
+    }
+
+    .detail strong {
+      color: #fff;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(249,247,244,0.96));
+      border-top: 1px solid rgba(151, 133, 119, 0.1);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .footer strong {
+      color: #382f29;
+    }
+
+    .version-switcher {
+      position: fixed;
+      right: 24px;
+      bottom: 22px;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 999px;
+      background: var(--switch-bg);
+      border: 1px solid var(--switch-border);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(12px);
+    }
+
+    .version-switcher__label {
+      margin-left: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .version-switcher button {
+      min-height: 32px;
+      min-width: 44px;
+      border: 0;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .version-switcher button.is-active {
+      color: #221d18;
+      background: linear-gradient(180deg, #fffefd, #fff2e9);
+      box-shadow: inset 0 0 0 1px rgba(254, 201, 170, 0.72);
+    }
+
+    body[data-variant="v2"] .version-switcher button.is-active {
+      box-shadow: inset 0 0 0 1px rgba(217, 122, 61, 0.72);
+    }
+
+    body[data-variant="v3"] .version-switcher button.is-active {
+      box-shadow: inset 0 0 0 1px rgba(112, 140, 160, 0.48);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1260px) {
+      col.col-product { width: 24%; }
+      col.col-role { width: 166px; }
+      .surfacebar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .metric-switch {
+        margin-left: 0;
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      body { padding: 0; }
+      .app {
+        min-height: 100vh;
+        border-radius: 0;
+        flex-direction: column;
+      }
+      .nav {
+        width: 100%;
+        flex-direction: row;
+        padding: 10px 12px;
+      }
+      .nav__stack {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 0 8px;
+      }
+      .content {
+        padding: 18px 16px 84px;
+      }
+      table {
+        min-width: 1320px;
+      }
+      .version-switcher {
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+        justify-content: space-between;
+      }
+      .version-switcher__label {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body data-variant="v1">
+  <div class="app">
+    <aside class="nav" aria-label="Omny navigation">
+      <div class="nav__avatar" aria-hidden="true">H</div>
+      <div class="nav__stack" aria-label="Primary modules">
+        <div class="nav__item">D</div>
+        <div class="nav__item">P</div>
+        <div class="nav__item">I</div>
+        <div class="nav__item">A</div>
+        <div class="nav__item">P&L</div>
+        <div class="nav__item">M</div>
+        <div class="nav__item is-active">C</div>
+      </div>
+      <div class="nav__logo" aria-hidden="true">O</div>
+    </aside>
+
+    <main class="panel">
+      <header class="topbar">
+        <div class="topbar__title">
+          <h1>Customer Insights</h1>
+          <p>Operational shell grounded in the linked Omny source file</p>
+        </div>
+
+        <div class="global-filters" aria-label="Global filters">
+          <div class="field">
+            <div class="field__label">Seller</div>
+            <div class="select">All Sellers</div>
+          </div>
+          <div class="field field--compact">
+            <div class="field__label">Marketplace</div>
+            <div class="select">All Marketplaces</div>
+          </div>
+        </div>
+
+        <div class="currency-pill">€ EUR</div>
+      </header>
+
+      <div class="tabbar">
+        <div class="tabs" role="tablist" aria-label="Customer Insights tabs">
+          <button class="tab" type="button">Dashboard</button>
+          <button class="tab" type="button">Cohort</button>
+          <button class="tab is-active" type="button">LTV per ASIN</button>
+        </div>
+      </div>
+
+      <div class="surfacebar">
+        <div class="surfacebar__group">
+          <div class="field">
+            <div class="field__label">Seller</div>
+            <div class="select">INGA France - EU - Seller - Amazon.fr</div>
+          </div>
+          <div class="field field--compact">
+            <div class="field__label">Marketplace</div>
+            <div class="select">All Marketplaces</div>
+          </div>
+        </div>
+
+        <div class="metric-switch" aria-label="Metric selector">
+          <span>Metric</span>
+          <div class="segmented" role="tablist">
+            <button class="is-active" type="button">Revenue</button>
+            <button type="button">Margin</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="content">
+        <div class="content__wrap">
+          <div class="summary-row">
+            <h2>16 ASINs <span>Non-negotiable table structure preserved</span></h2>
+            <div class="note-chip">
+              <strong>Hover states:</strong> Product Role and each breakdown cell expose row-specific guidance.
+            </div>
+          </div>
+
+          <div class="table-shell">
+            <table aria-label="Customer insights per ASIN">
+              <colgroup>
+                <col class="col-thumb" />
+                <col class="col-asin" />
+                <col class="col-product" />
+                <col class="col-entry" />
+                <col class="col-total" />
+                <col class="col-mult" />
+                <col class="col-role" />
+                <col class="col-break" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>ASIN</th>
+                  <th>Product Name</th>
+                  <th>Entry Customers</th>
+                  <th>Total</th>
+                  <th>LTV / 1st</th>
+                  <th>
+                    <span class="th-label">
+                      <span>Product Role</span>
+                      <span class="help" tabindex="0" aria-label="Product Role legend">
+                        <button class="info-btn" type="button" aria-label="Open Product Role legend">i</button>
+                        <span class="header-tooltip" role="tooltip">
+                          <h3>Product Role</h3>
+                          <p>Tags are computed from each ASIN's LTV composition. The tooltip matches the opt-in header pattern from the reference file.</p>
+                          <div class="legend-list">
+                            <div class="legend-item"><span class="icon">🚀</span><div><strong>Entry Driver</strong><span>High acquisition volume, low post-purchase engagement</span></div></div>
+                            <div class="legend-item"><span class="icon">🔁</span><div><strong>Loyalty Builder</strong><span>Customers keep buying the same product again</span></div></div>
+                            <div class="legend-item"><span class="icon">🌐</span><div><strong>Catalog Gateway</strong><span>Customers move from this ASIN into the broader catalog</span></div></div>
+                            <div class="legend-item"><span class="icon">⚠️</span><div><strong>Standalone</strong><span>Low repeat and low cross-sell behavior</span></div></div>
+                            <div class="legend-item"><span class="icon">⭐</span><div><strong>High Value</strong><span>Strong multiplier with healthy repeat and cross-sell</span></div></div>
+                          </div>
+                        </span>
+                      </span>
+                    </span>
+                  </th>
+                  <th class="breakdown-head">
+                    <span class="th-label">
+                      <span>LTV Breakdown</span>
+                      <span class="help" tabindex="0" aria-label="LTV Breakdown help">
+                        <button class="info-btn" type="button" aria-label="LTV Breakdown help">i</button>
+                        <span class="header-tooltip" role="tooltip">
+                          <h3>Breakdown cells are hoverable</h3>
+                          <p>Each row exposes the split between 1st Purchase, Entry Repeat, and Cross Repeat directly in the cell tooltip instead of a header legend.</p>
+                          <div class="legend-list">
+                            <div class="legend-item"><span class="icon">1</span><div><strong>1st Purchase</strong><span>First-order value that anchors the row</span></div></div>
+                            <div class="legend-item"><span class="icon">2</span><div><strong>Entry Repeat</strong><span>Same-product repeat behavior</span></div></div>
+                            <div class="legend-item"><span class="icon">3</span><div><strong>Cross Repeat</strong><span>Value that spills into other catalog products</span></div></div>
+                          </div>
+                        </span>
+                      </span>
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+            <div class="footer">
+              <div><strong>Version switcher:</strong> use the pills pinned to the bottom right to compare the three visual directions.</div>
+              <div><strong>Reference:</strong> module shell follows <code>module-brief.md</code> with the concept nuances layered on top.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="version-switcher" aria-label="Prototype iterations">
+    <span class="version-switcher__label">Iterations</span>
+    <button type="button" data-variant="v1" class="is-active" aria-pressed="true">01</button>
+    <button type="button" data-variant="v2" aria-pressed="false">02</button>
+    <button type="button" data-variant="v3" aria-pressed="false">03</button>
+  </div>
+
+  <script type="module">
+    const rows = [
+      { tone: "gold", asin: "B0CGFCCM27", product: "INGA - 4 X Eponges Réutilisables Lavable...", entry: "21K", total: "30 €", mult: "1.17x", role: { cls: "high-value", icon: "⭐", label: "High Value", tooltip: "Strong multiplier with healthy repeat and cross-sell behaviour. Both repeat components are meaningful and the ASIN sits in the top tier of catalog value." }, breakdown: { first: { width: 78, value: "25 €" }, entry: { width: 11, value: "" }, cross: { width: 4, value: "" }, note: "Highest-contribution row in the set." } },
+      { tone: "green", asin: "B0BW43ZZ26", product: "INGA - 2 X Eponges Réutilisables Lavable...", entry: "4.5K", total: "18 €", mult: "1.27x", role: { cls: "catalog-gateway", icon: "🌐", label: "Catalog Gateway", tooltip: "Cross Repeat is the dominant post-first-purchase component and exceeds Entry Repeat, indicating that this ASIN opens the catalog rather than just repeating itself." }, breakdown: { first: { width: 60, value: "14 €" }, entry: { width: 6, value: "" }, cross: { width: 12, value: "" }, note: "Strong spillover into the broader catalog." } },
+      { tone: "red", asin: "B0BW44HYTD", product: "INGA - 2 X Eponges Réutilisables Lavable...", entry: "4.4K", total: "18 €", mult: "1.31x", role: { cls: "loyalty-builder", icon: "🔁", label: "Loyalty Builder", tooltip: "Entry Repeat is the dominant component here. Customers are returning to the same product, which makes this a strong retention anchor." }, breakdown: { first: { width: 58, value: "14 €" }, entry: { width: 7, value: "" }, cross: { width: 11, value: "" }, note: "Retention-led purchasing pattern." } },
+      { tone: "stone", asin: "B0CZ6VB849", product: "INGA Duo d'éponges lavables - Gris, ING...", entry: "3.3K", total: "18 €", mult: "1.31x", role: { cls: "standalone", icon: "⚠️", label: "Standalone", tooltip: "This ASIN has a low repeat profile and weak catalog spillover. It should be investigated before spend is increased." }, breakdown: { first: { width: 56, value: "14 €" }, entry: { width: 8, value: "" }, cross: { width: 10, value: "" }, note: "Low repeat, low cross-sell." } },
+      { tone: "gold", asin: "B0BW41RR95", product: "INGA - 2 X Eponges Réutilisables Lavable...", entry: "1.7K", total: "18 €", mult: "1.24x", role: { cls: "entry-driver", icon: "🚀", label: "Entry Driver", tooltip: "This ASIN pulls in many first-time customers, but too little of the value is retained after the first purchase. Acquisition is strong; loyalty is weaker." }, breakdown: { first: { width: 57, value: "15 €" }, entry: { width: 5, value: "" }, cross: { width: 13, value: "" }, note: "Acquisition-heavy pattern." } },
+      { tone: "orange", asin: "B0BW44MT2X", product: "INGA - 2 X Eponges Réutilisables Lavable...", entry: "1.6K", total: "19 €", mult: "1.32x", role: { cls: "high-value", icon: "⭐", label: "High Value", tooltip: "This ASIN combines a strong multiplier with healthy repeat and cross-sell. It reads as one of the catalog's premium products." }, breakdown: { first: { width: 54, value: "14 €" }, entry: { width: 7, value: "" }, cross: { width: 15, value: "" }, note: "Balanced across all three components." } },
+      { tone: "stone", asin: "B0CZ47SG9D", product: "INGA - 2 X Éponges Réutilisables Lavable...", entry: "240", total: "23 €", mult: "1.34x", role: { cls: "catalog-gateway", icon: "🌐", label: "Catalog Gateway", tooltip: "Cross Repeat is clearly leading the story here, which means this product is a strong doorway into the broader catalog." }, breakdown: { first: { width: 64, value: "17 €" }, entry: { width: 5, value: "" }, cross: { width: 16, value: "5 €" }, note: "Cross-catalog motion is visible." } },
+      { tone: "gold", asin: "B0CKW1HRCK", product: "INGA - 5 X Essuie-Tout Réutilisables Lava...", entry: "221", total: "36 €", mult: "1.21x", role: { cls: "entry-driver", icon: "🚀", label: "Entry Driver", tooltip: "Entry volume is high relative to the rest of the set, while post-purchase value remains limited. A classic acquisition-heavy product." }, breakdown: { first: { width: 82, value: "29 €" }, entry: { width: 4, value: "" }, cross: { width: 10, value: "5 €" }, note: "Front-loaded value story." } },
+      { tone: "blue", asin: "B0CZ49X6HV", product: "INGA - 2 X Eponges Plates Réutilisables L...", entry: "181", total: "24 €", mult: "1.30x", role: { cls: "no-tag", icon: "—", label: "No tag", tooltip: "Insufficient history to confidently compute a Product Role. The table should explain this state rather than showing a misleading badge." }, breakdown: { first: { width: 65, value: "18 €" }, entry: { width: 4, value: "" }, cross: { width: 12, value: "" }, note: "History is not yet enough for a computed tag." } },
+      { tone: "violet", asin: "B0CZ4Y1SHQ", product: "INGA - 1 X Eponge Lavable, format compact...", entry: "150", total: "21 €", mult: "1.14x", role: { cls: "standalone", icon: "⚠️", label: "Standalone", tooltip: "Low multiplier and low cross-catalog value suggest a one-and-done purchasing pattern. Investigate before increasing investment." }, breakdown: { first: { width: 51, value: "12 €" }, entry: { width: 6, value: "" }, cross: { width: 9, value: "" }, note: "Disposable-style behavior or weak retention." } },
+      { tone: "teal", asin: "B0D1P48KQ2", product: "INGA - Pack découverte réutilisable, mix...", entry: "128", total: "27 €", mult: "1.29x", role: { cls: "loyalty-builder", icon: "🔁", label: "Loyalty Builder", tooltip: "This row is dominated by repeat behavior on the same ASIN, making it ideal for loyalty-led campaigns and subscription-style thinking." }, breakdown: { first: { width: 49, value: "12 €" }, entry: { width: 10, value: "" }, cross: { width: 12, value: "" }, note: "Repeat-heavy and resilient." } },
+      { tone: "orange", asin: "B0D1P4BX77", product: "INGA - format mini pour achat d'essai...", entry: "97", total: "14 €", mult: "1.09x", role: { cls: "standalone", icon: "⚠️", label: "Standalone", tooltip: "This product shows a low multiplier and limited repeat behavior. It reads like a discrete need, not a catalog expander." }, breakdown: { first: { width: 44, value: "9 €" }, entry: { width: 4, value: "" }, cross: { width: 6, value: "" }, note: "Lowest multiplier in the visible sample." } },
+      { tone: "violet", asin: "B0D1P4QJ81", product: "INGA - recharge lavable, couleur assortie...", entry: "84", total: "32 €", mult: "1.36x", role: { cls: "high-value", icon: "⭐", label: "High Value", tooltip: "This is one of the strongest all-round products in the set: high multiplier, meaningful same-product repeat, and material cross-catalog contribution." }, breakdown: { first: { width: 60, value: "21 €" }, entry: { width: 10, value: "" }, cross: { width: 11, value: "" }, note: "Strong catalogue-wide contributor." } },
+      { tone: "blue", asin: "B0D1P51L46", product: "INGA - kit famille, plus large panier...", entry: "73", total: "28 €", mult: "1.22x", role: { cls: "catalog-gateway", icon: "🌐", label: "Catalog Gateway", tooltip: "This ASIN seems to bring customers in and then lead them into the rest of the catalog rather than concentrating value in itself." }, breakdown: { first: { width: 53, value: "15 €" }, entry: { width: 6, value: "" }, cross: { width: 13, value: "" }, note: "Entry into a broader basket is visible." } },
+      { tone: "gold", asin: "B0D1P5A9RM", product: "INGA - pack saisonnier, usage ponctuel...", entry: "61", total: "16 €", mult: "1.08x", role: { cls: "no-tag", icon: "—", label: "No tag", tooltip: "There is not enough history to compute this confidently. The UI should make the limitation explicit rather than imply a pattern." }, breakdown: { first: { width: 40, value: "8 €" }, entry: { width: 5, value: "" }, cross: { width: 4, value: "" }, note: "No reliable role yet." } },
+      { tone: "teal", asin: "B0D1P5Q8KD", product: "INGA - best-seller variant, retention-led...", entry: "45", total: "35 €", mult: "1.35x", role: { cls: "loyalty-builder", icon: "🔁", label: "Loyalty Builder", tooltip: "Customers are coming back to this same ASIN more than they are drifting into other products, making it a natural retention candidate." }, breakdown: { first: { width: 58, value: "22 €" }, entry: { width: 9, value: "" }, cross: { width: 12, value: "" }, note: "High repeat confidence." } }
+    ];
+
+    const tbody = document.getElementById('rows');
+    const switcherButtons = [...document.querySelectorAll('.version-switcher button[data-variant]')];
+
+    tbody.innerHTML = rows.map((row) => `
+      <tr>
+        <td><div class="thumb" data-tone="${row.tone}"></div></td>
+        <td class="asin">${row.asin}</td>
+        <td class="product" title="${row.product}">${row.product}</td>
+        <td class="metric">${row.entry}</td>
+        <td class="currency">${row.total}</td>
+        <td><div class="mult">${row.mult}</div></td>
+        <td class="role-cell">
+          <div class="role-pill ${row.role.cls}" tabindex="0">
+            <span class="glyph">${row.role.icon}</span>
+            <span>${row.role.label}</span>
+            <div class="tooltip" role="tooltip">
+              <strong>${row.role.label}</strong>
+              <span>${row.role.tooltip}</span>
+            </div>
+          </div>
+        </td>
+        <td class="breakdown-cell" tabindex="0">
+          <div class="breakdown-target">
+            <div class="bar">
+              <span class="segment segment--first" style="width:${row.breakdown.first.width}%">${row.breakdown.first.value}</span>
+              <span class="segment segment--entry" style="width:${row.breakdown.entry.width}%"></span>
+              <span class="segment segment--cross" style="width:${row.breakdown.cross.width}%">${row.breakdown.cross.value}</span>
+            </div>
+          </div>
+          <div class="cell-tooltip" role="tooltip">
+            <h4>${row.asin} breakdown</h4>
+            <div class="mini-bar">
+              <span class="segment--first" style="width:${row.breakdown.first.width}%">${row.breakdown.first.value}</span>
+              <span class="segment--entry" style="width:${row.breakdown.entry.width}%"></span>
+              <span class="segment--cross" style="width:${row.breakdown.cross.width}%">${row.breakdown.cross.value}</span>
+            </div>
+            <p>${row.breakdown.note}</p>
+            <div class="details">
+              <div class="detail"><span><strong>1st Purchase</strong></span><span>${row.breakdown.first.value || 'not labeled'}</span></div>
+              <div class="detail"><span><strong>Entry Repeat</strong></span><span>${row.breakdown.entry.width}% of the bar</span></div>
+              <div class="detail"><span><strong>Cross Repeat</strong></span><span>${row.breakdown.cross.value || 'see bar composition'}</span></div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    const variantButtons = [...document.querySelectorAll('.version-switcher button[data-variant]')];
+    const applyVariant = (variant) => {
+      document.body.dataset.variant = variant;
+      variantButtons.forEach((btn) => {
+        const active = btn.dataset.variant === variant;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
+    };
+
+    variantButtons.forEach((btn) => {
+      btn.addEventListener('click', () => applyVariant(btn.dataset.variant));
+    });
+
+    applyVariant(document.body.dataset.variant || 'v1');
+  </script>
+</body>
+</html>
