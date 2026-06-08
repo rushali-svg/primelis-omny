@@ -1,0 +1,19 @@
+{
+  "id": "concept-01-iteration-01",
+  "concept": "concept-01",
+  "iteration": "iteration-01",
+  "label": "Shell + hover states",
+  "author": "Codex",
+  "createdAt": "2026-06-08",
+  "status": "in-progress",
+  "tags": ["prototype", "hover", "sites"],
+  "description": "A single prototype page with three visual iterations for Concept 1, each switchable from a bottom-right pill control, with product-role and breakdown hover states.",
+  "lineage": {
+    "source": "concept-doc.md",
+    "parent": "concept-01"
+  },
+  "supersedes": null,
+  "presentationGroup": "concept-01",
+  "changesFromPrevious": [],
+  "feedbackAddressed": []
+}

@@ -17,10 +17,9 @@ Last updated: 2026-06-07
 ## Iterations
 | Iteration | Status | Notes |
 |-----------|--------|-------|
-| iteration-01 | in-progress | shell rename complete; shell and tooltip nuances still need Figma rebuild |
+| iteration-01 | in-progress | single prototype page with three switchable visual directions and hover states |
 
 ## Open items
 - [ ] Confirm whether the first iteration should include the future role filter chip
-- [ ] Rebuild the shell in Figma to match the linked Omny source more closely
-- [ ] Move `Product Role` legend/list into the header tooltip
-- [ ] Remove the visible `LTV Breakdown` legend from the header and convert it into a tooltip
+- [ ] Decide which of the three visual directions should become the base for the next iteration
+- [ ] Decide whether the next pass should be wrapped as a Cloudflare Worker for Sites deployment
