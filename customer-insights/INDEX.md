@@ -6,7 +6,7 @@ Last updated: 2026-06-07
 
 ## Phase status
 - [x] Phase 1 — Context setup
-- [ ] Phase 2 — Concept development
+- [x] Phase 2 — Concept development
 - [ ] Phase 3 — Iterations
 - [ ] Phase 4 — Showcase
 
@@ -20,8 +20,9 @@ Last updated: 2026-06-07
 - `LTV per ASIN` tab structure refined from screenshot reference
 
 ## Concepts
-- None yet; ready for concept kickoff after kickoff decisions
+- concept-01 started on `concept-01-ideations`
+- Concept-specific docs now live under `concepts/concept-01/`
 
 ## Open items
 - [ ] Confirm concept count at kickoff
-- [ ] Add `TAGS.md` when concept work begins
+- [ ] Add real visual references to `concepts/concept-01/references.md`
