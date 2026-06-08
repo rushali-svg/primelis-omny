@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Insights - Cohort per ASIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f3ef;
+      --bg-2: #fff9f5;
+      --surface: rgba(255, 255, 255, 0.84);
+      --surface-strong: #ffffff;
+      --surface-warm: #fff4ec;
+      --line: rgba(49, 44, 38, 0.09);
+      --text: #2f2a25;
+      --muted: #7e756d;
+      --muted-2: #a79b90;
+      --brand: #FEC9AA;
+      --brand-deep: #f39f72;
+      --brand-soft: #ffe7d7;
+      --purple: #7c3aed;
+      --purple-soft: #efe8ff;
+      --teal: #0e9f8f;
+      --teal-soft: #e4faf7;
+      --orange: #de7c00;
+      --orange-soft: #fff1dd;
+      --amber: #d69a14;
+      --amber-soft: #fff7dc;
+      --indigo: #5668f3;
+      --indigo-soft: #edf0ff;
+      --shadow: 0 24px 60px rgba(74, 53, 41, 0.12);
+      --shadow-soft: 0 10px 28px rgba(74, 53, 41, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --row-h: 72px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Figtree", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: #eef0f3;
+    }
+
+    body {
+      padding: 24px;
+    }
+
+    .page {
+      max-width: 1512px;
+      margin: 0 auto;
+      min-height: calc(100vh - 48px);
+      display: flex;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 28px 80px rgba(51, 42, 34, 0.16);
+      background: #fff;
+    }
+
+    .left-rail {
+      width: 64px;
+      background: #1b1816;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0 16px;
+      flex: none;
+    }
+
+    .rail-account {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 8px 0 12px;
+    }
+
+    .rail-account .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f0f0;
+      color: #1b1816;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+    }
+
+    .rail-nav {
+      width: 100%;
+      display: grid;
+      gap: 10px;
+      padding: 8px 0;
+      justify-items: center;
+      flex: 1;
+    }
+
+    .rail-item {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .rail-item.active {
+      background: #f4f0eb;
+      color: #15110f;
+    }
+
+    .rail-logo {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding-top: 16px;
+    }
+
+    .rail-logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: #f4f0eb;
+      color: #1b1816;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .right-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #fafbfc;
+    }
+
+    .page-nav,
+    .page-nav--sub {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 60px;
+      border-bottom: 1px solid #e3e4e7;
+      background: #fff;
+      padding: 0 24px;
+    }
+
+    .page-nav {
+      min-height: 60px;
+    }
+
+    .page-nav--sub {
+      min-height: 56px;
+      background: #f7f9fc;
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+
+    .page-nav--sub.secondary {
+      justify-content: flex-start;
+      gap: 16px;
+    }
+
+    .breadcrumbs {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .breadcrumbs .crumb-parent {
+      color: #4e4b48;
+      font-weight: 500;
+    }
+
+    .breadcrumbs .crumb-sep {
+      color: #7b7570;
+      font-family: Inter, sans-serif;
+    }
+
+    .breadcrumbs .crumb-current {
+      color: #171514;
+      font-weight: 600;
+    }
+
+    .currency-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 10px;
+      border: 1px solid #e0e2e6;
+      background: #fff;
+      color: #2b2623;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 1px 2px rgba(25, 17, 11, 0.04);
+    }
+
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #f7f8fa;
+      padding: 24px;
+      gap: 16px;
+      overflow: auto;
+    }
+
+    .content-frame {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 1240px;
+    }
+
+    .module-top,
+    .shell {
+      all: unset;
+    }
+
+    .module-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+      padding: 0 6px;
+    }
+
+    .module-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .module-title h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .module-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .tabs {
+      display: inline-flex;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(145, 122, 104, 0.12);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tab {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: default;
+    }
+
+    .tab.active {
+      color: #1d1a17;
+      background: linear-gradient(180deg, #fff9f3, #fff3e8);
+      box-shadow: inset 0 0 0 1px rgba(254, 201, 170, 0.8);
+    }
+
+    .shell {
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.8));
+      border: 1px solid rgba(145, 122, 104, 0.14);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .control-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 270px;
+    }
+
+    .field.small {
+      min-width: 190px;
+    }
+
+    .field label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 12px;
+      font-weight: 800;
+      color: #9c9288;
+      padding-left: 10px;
+    }
+
+    .select, .pill-switch {
+      display: inline-flex;
+      align-items: center;
+      min-height: 52px;
+      border-radius: 14px;
+      border: 1px solid rgba(149, 132, 118, 0.22);
+      background: rgba(255,255,255,0.92);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+      padding: 0 16px;
+      font-size: 18px;
+      color: #211d19;
+      font-weight: 600;
+    }
+
+    .select::after {
+      content: "⌄";
+      margin-left: auto;
+      color: #7b6f65;
+      font-size: 18px;
+      padding-left: 14px;
+    }
+
+    .metric-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-left: auto;
+    }
+
+    .metric-label {
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .segmented {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 16px;
+      background: rgba(245, 237, 230, 0.92);
+      border: 1px solid rgba(145, 122, 104, 0.1);
+    }
+
+    .segmented button {
+      border: 0;
+      border-radius: 12px;
+      min-width: 100px;
+      padding: 12px 18px;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 800;
+      color: #7d7267;
+      background: transparent;
+    }
+
+    .segmented button.active {
+      background: linear-gradient(180deg, #fffdfb, #fff7f1);
+      color: #2d241e;
+      box-shadow: 0 2px 10px rgba(68, 46, 32, 0.08);
+    }
+
+    .toolbar-note {
+      margin: 0 0 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #fff0e5, #fff7f2);
+      border: 1px solid rgba(254, 201, 170, 0.65);
+      color: #6b584c;
+      font-size: 15px;
+      font-weight: 600;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+    }
+
+    .toolbar-note .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--brand-deep);
+      box-shadow: 0 0 0 6px rgba(254, 201, 170, 0.22);
+      flex: none;
+    }
+
+    .content-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .count {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .count span {
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    .header-help {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .header-help--breakdown {
+      margin-left: 0;
+      justify-content: flex-start;
+    }
+
+    .info-trigger {
+      width: 22px;
+      height: 22px;
+      border: 1px solid rgba(145, 122, 104, 0.2);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.92);
+      color: #7b6f65;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+      cursor: default;
+    }
+
+    .info-trigger:focus-visible {
+      outline: 2px solid rgba(254, 201, 170, 0.95);
+      outline-offset: 2px;
+    }
+
+    .header-tooltip {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 12px);
+      width: 360px;
+      border-radius: 18px;
+      background: rgba(36, 32, 28, 0.98);
+      color: #fff;
+      box-shadow: 0 24px 48px rgba(18, 14, 11, 0.28);
+      padding: 16px 16px 14px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 8;
+      text-align: left;
+    }
+
+    .header-tooltip::before {
+      content: "";
+      position: absolute;
+      left: 24px;
+      bottom: 100%;
+      border: 8px solid transparent;
+      border-bottom-color: rgba(36, 32, 28, 0.98);
+    }
+
+    .header-help:hover .header-tooltip,
+    .header-help:focus-within .header-tooltip {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .header-tooltip-title {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .header-tooltip-subtitle {
+      margin: 0 0 12px;
+      color: rgba(255,255,255,0.78);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    .header-tooltip-list {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .header-tooltip-item {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 9px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .header-tooltip-icon {
+      font-size: 15px;
+      line-height: 1;
+      margin-top: 1px;
+    }
+
+    .header-tooltip-item strong {
+      display: block;
+      font-size: 12px;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .header-tooltip-item span {
+      display: block;
+      font-size: 11px;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.78);
+      font-weight: 500;
+    }
+
+    .header-tooltip-foot {
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.78);
+      font-size: 11px;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .header-tooltip-stack {
+      display: flex;
+      overflow: hidden;
+      height: 24px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      margin: 0 0 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .header-tooltip-segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .header-tooltip-segment.first {
+      background: linear-gradient(180deg, #8b4cf1, #7b33ea);
+    }
+
+    .header-tooltip-segment.entry {
+      background: linear-gradient(180deg, #11b39f, #0f9b8a);
+    }
+
+    .header-tooltip-segment.cross {
+      background: linear-gradient(180deg, #e68a05, #d97706);
+    }
+
+    .header-tooltip-note {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255,255,255,0.72);
+      font-size: 11px;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .table-shell {
+      border-radius: 26px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(145, 122, 104, 0.12);
+      box-shadow: var(--shadow-soft);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-variant-numeric: tabular-nums;
+    }
+
+    col.thumb { width: 72px; }
+    col.asin { width: 140px; }
+    col.product { width: 31%; }
+    col.entry { width: 120px; }
+    col.total { width: 118px; }
+    col.mult { width: 130px; }
+    col.role { width: 170px; }
+    col.breakdown { width: auto; }
+
+    thead th {
+      padding: 18px 16px 16px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 800;
+      color: #6b6258;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,248,245,0.96));
+      border-bottom: 1px solid rgba(145, 122, 104, 0.14);
+      vertical-align: bottom;
+    }
+
+    thead .breakdown-head {
+      padding-bottom: 10px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(145, 122, 104, 0.09);
+      background: rgba(255,255,255,0.6);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(250, 247, 244, 0.92);
+    }
+
+    tbody td {
+      padding: 14px 16px;
+      vertical-align: middle;
+      color: #2f2924;
+      font-size: 16px;
+    }
+
+    tbody tr:hover {
+      background: linear-gradient(180deg, rgba(254, 201, 170, 0.09), rgba(255,255,255,0.98));
+    }
+
+    .thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(106, 88, 76, 0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.75), rgba(255,255,255,0)),
+        linear-gradient(180deg, #f4dcb0, #e4b96f);
+    }
+
+    .thumb::before,
+    .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 6px 7px;
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.95) 0 18%, transparent 18% 24%, rgba(255,255,255,0.9) 24% 52%, transparent 52% 60%, rgba(255,255,255,0.86) 60% 78%, transparent 78% 100%);
+      opacity: 0.6;
+    }
+
+    .thumb::after {
+      inset: auto 5px 5px 5px;
+      height: 8px;
+      background: rgba(101, 72, 52, 0.08);
+      opacity: 0.9;
+    }
+
+    .thumb.b-2 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #d2ebc6, #8dc98a); }
+    .thumb.b-3 { background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0)), linear-gradient(180deg, #efc7c0, #d94f47); }
+    .thumb.b-4 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #d7d1ca, #8c8278); }
+    .thumb.b-5 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #f6df87, #e8b719); }
+    .thumb.b-6 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #efc2a2, #e86f45); }
+    .thumb.b-7 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #d8d6d9, #645d57); }
+    .thumb.b-8 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #f0eccf, #d0b56d); }
+    .thumb.b-9 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #b6e0f4, #3e86c7); }
+    .thumb.b-10 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #e0cfef, #9861c9); }
+    .thumb.b-11 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #c9f0e0, #46b389); }
+    .thumb.b-12 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #f3d5b7, #c67d4b); }
+    .thumb.b-13 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #f7e1e8, #e07aa7); }
+    .thumb.b-14 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #d3ecf6, #76b6db); }
+    .thumb.b-15 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #ece2cb, #c6a86d); }
+    .thumb.b-16 { background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0)), linear-gradient(180deg, #ddf0f1, #4ea8ae); }
+
+    .asin-code {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .product-name {
+      color: #4a433d;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .metric-cell,
+    .money-cell {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+
+    .mult-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      border-radius: 10px;
+      padding: 0 12px;
+      background: linear-gradient(180deg, #f8dcc4, #f6d2af);
+      color: #d76b00;
+      font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+    }
+
+    .role-cell {
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: default;
+      position: relative;
+      outline: none;
+    }
+
+    .badge .glyph {
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .badge .tooltip {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 12px);
+      transform: translateX(-50%) translateY(4px);
+      width: 280px;
+      background: rgba(36, 32, 28, 0.98);
+      color: #fff;
+      border-radius: 16px;
+      padding: 12px 12px 11px;
+      box-shadow: 0 18px 34px rgba(18, 14, 11, 0.24);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 3;
+      text-align: left;
+    }
+
+    .badge .tooltip::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      border: 8px solid transparent;
+      border-top-color: rgba(36, 32, 28, 0.98);
+    }
+
+    .badge:hover .tooltip,
+    .badge:focus-visible .tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .tooltip strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .tooltip span {
+      display: block;
+      font-size: 12px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.88);
+      font-weight: 500;
+    }
+
+    .entry-driver {
+      background: var(--indigo-soft);
+      border-color: rgba(86, 104, 243, 0.24);
+      color: #4051e9;
+    }
+
+    .loyalty-builder {
+      background: var(--teal-soft);
+      border-color: rgba(14, 159, 143, 0.24);
+      color: #0d8f82;
+    }
+
+    .catalog-gateway {
+      background: #f1eafe;
+      border-color: rgba(124, 58, 237, 0.22);
+      color: #7d3df1;
+    }
+
+    .standalone {
+      background: var(--amber-soft);
+      border-color: rgba(214, 154, 20, 0.26);
+      color: #c78700;
+    }
+
+    .high-value {
+      background: #fff6d4;
+      border-color: rgba(212, 163, 13, 0.28);
+      color: #b48308;
+    }
+
+    .no-tag {
+      background: #f1eeeb;
+      border-color: rgba(145, 122, 104, 0.18);
+      color: #786b61;
+    }
+
+    .no-tag .tooltip {
+      width: 300px;
+    }
+
+    .breakdown {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 44px;
+      cursor: help;
+    }
+
+    .bar {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(237, 231, 225, 0.6);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .segment.first {
+      background: linear-gradient(180deg, #8b4cf1, #7b33ea);
+    }
+
+    .segment.entry {
+      background: linear-gradient(180deg, #11b39f, #0f9b8a);
+    }
+
+    .segment.cross {
+      background: linear-gradient(180deg, #e68a05, #d97706);
+    }
+
+    .breakdown-split {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      flex: none;
+    }
+
+    .subtle {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(249,247,244,0.96));
+      border-top: 1px solid rgba(145, 122, 104, 0.1);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .future-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(254, 201, 170, 0.16);
+      color: #7d6252;
+      border: 1px solid rgba(254, 201, 170, 0.42);
+    }
+
+    .future-chip strong {
+      color: #3a2f29;
+    }
+
+    .th-with-help {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      position: relative;
+    }
+
+    .breakdown-head .header-tooltip {
+      left: auto;
+      right: 0;
+    }
+
+    .breakdown-head .header-tooltip::before {
+      left: auto;
+      right: 24px;
+    }
+
+    @media (max-width: 1280px) {
+      .content-head {
+        flex-direction: column;
+      }
+
+      col.product { width: 26%; }
+      col.role { width: 155px; }
+    }
+
+    @media (max-width: 980px) {
+      body {
+        padding: 0;
+      }
+
+      .page {
+        min-height: 100vh;
+        border-radius: 0;
+        flex-direction: column;
+      }
+
+      .left-rail {
+        width: 100%;
+        flex-direction: row;
+        padding: 10px 12px;
+      }
+
+      .rail-nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 0 10px;
+      }
+
+      .rail-account,
+      .rail-logo {
+        width: auto;
+        padding: 0;
+        flex: none;
+      }
+
+      .right-content {
+        min-width: 0;
+      }
+
+      .page-nav,
+      .page-nav--sub,
+      .page-nav--sub.secondary {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .page-nav,
+      .page-nav--sub,
+      .page-nav--sub.secondary,
+      .content-area {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .metric-wrap {
+        margin-left: 0;
+        justify-content: space-between;
+      }
+
+      .field {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .field.small {
+        width: 100%;
+      }
+
+      .tabs {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .tab {
+        flex: 1;
+      }
+
+      table {
+        min-width: 1380px;
+      }
+
+      .content-area {
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+
+      .content-frame {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="left-rail" aria-label="Omny navigation">
+      <div class="rail-account" aria-label="Account switcher">
+        <div class="avatar">H</div>
+      </div>
+      <div class="rail-nav" aria-label="Primary navigation">
+        <div class="rail-item">D</div>
+        <div class="rail-item">P</div>
+        <div class="rail-item">I</div>
+        <div class="rail-item">A</div>
+        <div class="rail-item">P&amp;L</div>
+        <div class="rail-item">M</div>
+        <div class="rail-item active">C</div>
+      </div>
+      <div class="rail-logo">
+        <div class="rail-logo-mark">O</div>
+      </div>
+    </div>
+
+    <div class="right-content">
+      <div class="page-nav">
+        <div class="breadcrumbs" aria-label="Breadcrumb">
+          <span class="crumb-parent">Advertising</span>
+          <span class="crumb-sep">/</span>
+          <span class="crumb-current">Customer Insights</span>
+        </div>
+        <div class="currency-pill">€ EUR</div>
+      </div>
+
+      <div class="page-nav--sub">
+        <div class="tabs" aria-label="Customer Insights tabs">
+          <button class="tab">Dashboard</button>
+          <button class="tab">Cohort</button>
+          <button class="tab active">Cohort per ASIN</button>
+        </div>
+      </div>
+
+      <div class="page-nav--sub secondary">
+        <div class="control-group">
+          <div class="field">
+            <label for="seller">Seller</label>
+            <div class="select" id="seller">INGA France - EU - Seller - Amazon.fr</div>
+          </div>
+          <div class="field small">
+            <label for="marketplace">Marketplace</label>
+            <div class="select" id="marketplace">All Marketplaces</div>
+          </div>
+        </div>
+
+        <div class="metric-wrap">
+          <div class="metric-label">Metric</div>
+          <div class="segmented" role="tablist" aria-label="Metric selector">
+            <button class="active" aria-selected="true">Revenue</button>
+            <button aria-selected="false">Margin</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="content-frame">
+          <div class="content-head">
+            <p class="count">16 ASINs <span>Global shell follows the reference screen</span></p>
+          </div>
+
+          <div class="toolbar-note">
+            <span class="dot" aria-hidden="true"></span>
+            Product Role tags summarise each ASIN's LTV behaviour. Hover any tag or open the header info icons to learn more.
+          </div>
+
+          <div class="table-shell">
+            <table>
+          <colgroup>
+            <col class="thumb">
+            <col class="asin">
+            <col class="product">
+            <col class="entry">
+            <col class="total">
+            <col class="mult">
+            <col class="role">
+            <col class="breakdown">
+          </colgroup>
+          <thead>
+            <tr>
+              <th></th>
+              <th>ASIN</th>
+              <th>Product Name</th>
+              <th>Entry Customers</th>
+              <th>Total</th>
+              <th>LTV / 1st</th>
+              <th>
+                <span class="th-with-help">
+                  <span>Product Role</span>
+                  <span class="header-help" aria-label="Product Role legend">
+                    <button class="info-trigger" type="button" aria-label="Open Product Role legend">i</button>
+                    <div class="header-tooltip">
+                      <div class="header-tooltip-title">Product Role</div>
+                      <div class="header-tooltip-subtitle">Tags are computed from each ASIN's LTV composition. Thresholds are relative to your catalog.</div>
+                      <div class="header-tooltip-list">
+                        <div class="header-tooltip-item">
+                          <div class="header-tooltip-icon">🚀</div>
+                          <div><strong>Entry Driver</strong><span>High volume, low repeat</span></div>
+                        </div>
+                        <div class="header-tooltip-item">
+                          <div class="header-tooltip-icon">🔁</div>
+                          <div><strong>Loyalty Builder</strong><span>Strong same-product return</span></div>
+                        </div>
+                        <div class="header-tooltip-item">
+                          <div class="header-tooltip-icon">🌐</div>
+                          <div><strong>Catalog Gateway</strong><span>Drives cross-catalog buying</span></div>
+                        </div>
+                        <div class="header-tooltip-item">
+                          <div class="header-tooltip-icon">⚠️</div>
+                          <div><strong>Standalone</strong><span>Low repeat, low cross-sell</span></div>
+                        </div>
+                        <div class="header-tooltip-item">
+                          <div class="header-tooltip-icon">⭐</div>
+                          <div><strong>High Value</strong><span>Strong multiplier + both repeat types</span></div>
+                        </div>
+                      </div>
+                      <div class="header-tooltip-foot">Hover a badge to see the row-specific rationale.</div>
+                    </div>
+                  </span>
+                </span>
+              </th>
+              <th class="breakdown-head">LTV Breakdown</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="thumb"></div></td>
+              <td class="asin-code">B0CGFCCM27</td>
+              <td class="product-name">INGA - 4 X Eponges Réutilisables Lavable...</td>
+              <td class="metric-cell">21K</td>
+              <td class="money-cell">30 €</td>
+              <td><div class="mult-pill">1.17x</div></td>
+              <td class="role-cell">
+                <div class="badge high-value" tabindex="0"><span class="glyph">⭐</span>High Value
+                  <div class="tooltip"><strong>High Value</strong><span>Strong multiplier with healthy repeat and cross-sell behaviour. Both repeat components are meaningful and the ASIN sits in the top tier of catalog value.</span></div>
+                </div>
+              </td>
+              <td>
+                <div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar.">
+                  <div class="bar">
+                    <span class="segment first" style="width: 78%;">25 €</span>
+                    <span class="segment entry" style="width: 11%;"></span>
+                    <span class="segment cross" style="width: 4%;"></span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-2"></div></td>
+              <td class="asin-code">B0BW43ZZ26</td>
+              <td class="product-name">INGA - 2 X Eponges Réutilisables Lavable...</td>
+              <td class="metric-cell">4.5K</td>
+              <td class="money-cell">18 €</td>
+              <td><div class="mult-pill">1.27x</div></td>
+              <td class="role-cell">
+                <div class="badge catalog-gateway" tabindex="0"><span class="glyph">🌐</span>Catalog Gateway
+                  <div class="tooltip"><strong>Catalog Gateway</strong><span>Cross Repeat is the dominant post-first-purchase component and exceeds Entry Repeat, indicating that this ASIN opens the catalog rather than just repeating itself.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 60%;">14 €</span><span class="segment entry" style="width: 6%;"></span><span class="segment cross" style="width: 12%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-3"></div></td>
+              <td class="asin-code">B0BW44HYTD</td>
+              <td class="product-name">INGA - 2 X Eponges Réutilisables Lavable...</td>
+              <td class="metric-cell">4.4K</td>
+              <td class="money-cell">18 €</td>
+              <td><div class="mult-pill">1.31x</div></td>
+              <td class="role-cell">
+                <div class="badge loyalty-builder" tabindex="0"><span class="glyph">🔁</span>Loyalty Builder
+                  <div class="tooltip"><strong>Loyalty Builder</strong><span>Entry Repeat dominates the tag logic here. Customers are returning to the same product, which makes this a strong retention anchor.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 58%;">14 €</span><span class="segment entry" style="width: 7%;"></span><span class="segment cross" style="width: 11%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-4"></div></td>
+              <td class="asin-code">B0CZ6VB849</td>
+              <td class="product-name">INGA Duo d'eponges lavables - Gris, ING...</td>
+              <td class="metric-cell">3.3K</td>
+              <td class="money-cell">18 €</td>
+              <td><div class="mult-pill">1.31x</div></td>
+              <td class="role-cell">
+                <div class="badge standalone" tabindex="0"><span class="glyph">⚠️</span>Standalone
+                  <div class="tooltip"><strong>Standalone</strong><span>This ASIN has a low repeat profile and weak catalog spillover. It should be investigated before spend is increased.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 56%;">14 €</span><span class="segment entry" style="width: 8%;"></span><span class="segment cross" style="width: 10%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-5"></div></td>
+              <td class="asin-code">B0BW41RR95</td>
+              <td class="product-name">INGA - 2 X Eponges Réutilisables Lavable...</td>
+              <td class="metric-cell">1.7K</td>
+              <td class="money-cell">18 €</td>
+              <td><div class="mult-pill">1.24x</div></td>
+              <td class="role-cell">
+                <div class="badge entry-driver" tabindex="0"><span class="glyph">🚀</span>Entry Driver
+                  <div class="tooltip"><strong>Entry Driver</strong><span>This ASIN pulls in many first-time customers, but too little of the value is retained after the first purchase. Acquisition is strong; loyalty is weaker.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 57%;">15 €</span><span class="segment entry" style="width: 5%;"></span><span class="segment cross" style="width: 13%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-6"></div></td>
+              <td class="asin-code">B0BW44MT2X</td>
+              <td class="product-name">INGA - 2 X Eponges Réutilisables Lavable...</td>
+              <td class="metric-cell">1.6K</td>
+              <td class="money-cell">19 €</td>
+              <td><div class="mult-pill">1.32x</div></td>
+              <td class="role-cell">
+                <div class="badge high-value" tabindex="0"><span class="glyph">⭐</span>High Value
+                  <div class="tooltip"><strong>High Value</strong><span>This ASIN combines a strong multiplier with healthy repeat and cross-sell. It reads as one of the catalog's premium products.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 54%;">14 €</span><span class="segment entry" style="width: 7%;"></span><span class="segment cross" style="width: 15%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-7"></div></td>
+              <td class="asin-code">B0CZ47SG9D</td>
+              <td class="product-name">INGA - 2 X Éponges Réutilisables Lavable...</td>
+              <td class="metric-cell">240</td>
+              <td class="money-cell">23 €</td>
+              <td><div class="mult-pill">1.34x</div></td>
+              <td class="role-cell">
+                <div class="badge catalog-gateway" tabindex="0"><span class="glyph">🌐</span>Catalog Gateway
+                  <div class="tooltip"><strong>Catalog Gateway</strong><span>Cross Repeat is clearly leading the story here, which means this product is a strong doorway into the broader catalog.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 64%;">17 €</span><span class="segment entry" style="width: 5%;"></span><span class="segment cross" style="width: 16%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-8"></div></td>
+              <td class="asin-code">B0CKW1HRCK</td>
+              <td class="product-name">INGA - 5 X Essuie-Tout Réutilisables Lava...</td>
+              <td class="metric-cell">221</td>
+              <td class="money-cell">36 €</td>
+              <td><div class="mult-pill">1.21x</div></td>
+              <td class="role-cell">
+                <div class="badge entry-driver" tabindex="0"><span class="glyph">🚀</span>Entry Driver
+                  <div class="tooltip"><strong>Entry Driver</strong><span>Entry volume is high relative to the rest of the set, while post-purchase value remains limited. A classic acquisition-heavy product.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 82%;">29 €</span><span class="segment entry" style="width: 4%;"></span><span class="segment cross" style="width: 10%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-9"></div></td>
+              <td class="asin-code">B0CZ49X6HV</td>
+              <td class="product-name">INGA - 2 X Eponges Plates Réutilisables L...</td>
+              <td class="metric-cell">181</td>
+              <td class="money-cell">24 €</td>
+              <td><div class="mult-pill">1.30x</div></td>
+              <td class="role-cell">
+                <div class="badge no-tag" tabindex="0"><span class="glyph">—</span>No tag
+                  <div class="tooltip"><strong>No tag</strong><span>Insufficient history to confidently compute a Product Role. The table should explain this state rather than showing a misleading badge.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 65%;">18 €</span><span class="segment entry" style="width: 4%;"></span><span class="segment cross" style="width: 12%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-10"></div></td>
+              <td class="asin-code">B0CZ4Y1SHQ</td>
+              <td class="product-name">INGA - 1 X Eponge Lavable, format compact...</td>
+              <td class="metric-cell">150</td>
+              <td class="money-cell">21 €</td>
+              <td><div class="mult-pill">1.14x</div></td>
+              <td class="role-cell">
+                <div class="badge standalone" tabindex="0"><span class="glyph">⚠️</span>Standalone
+                  <div class="tooltip"><strong>Standalone</strong><span>Low multiplier and low cross-catalog value suggest a one-and-done purchasing pattern. Investigate before increasing investment.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 51%;">12 €</span><span class="segment entry" style="width: 6%;"></span><span class="segment cross" style="width: 9%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-11"></div></td>
+              <td class="asin-code">B0D1P48KQ2</td>
+              <td class="product-name">INGA - Pack découverte réutilisable, mix...</td>
+              <td class="metric-cell">128</td>
+              <td class="money-cell">27 €</td>
+              <td><div class="mult-pill">1.29x</div></td>
+              <td class="role-cell">
+                <div class="badge loyalty-builder" tabindex="0"><span class="glyph">🔁</span>Loyalty Builder
+                  <div class="tooltip"><strong>Loyalty Builder</strong><span>This row is dominated by repeat behavior on the same ASIN, making it ideal for loyalty-led campaigns and subscription-style thinking.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 49%;">12 €</span><span class="segment entry" style="width: 10%;"></span><span class="segment cross" style="width: 12%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-12"></div></td>
+              <td class="asin-code">B0D1P4BX77</td>
+              <td class="product-name">INGA - format mini pour achat d'essai...</td>
+              <td class="metric-cell">97</td>
+              <td class="money-cell">14 €</td>
+              <td><div class="mult-pill">1.09x</div></td>
+              <td class="role-cell">
+                <div class="badge standalone" tabindex="0"><span class="glyph">⚠️</span>Standalone
+                  <div class="tooltip"><strong>Standalone</strong><span>This product shows a low multiplier and limited repeat behavior. It reads like a discrete need, not a catalog expander.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 44%;">9 €</span><span class="segment entry" style="width: 4%;"></span><span class="segment cross" style="width: 6%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-13"></div></td>
+              <td class="asin-code">B0D1P4QJ81</td>
+              <td class="product-name">INGA - recharge lavable, couleur assortie...</td>
+              <td class="metric-cell">84</td>
+              <td class="money-cell">32 €</td>
+              <td><div class="mult-pill">1.36x</div></td>
+              <td class="role-cell">
+                <div class="badge high-value" tabindex="0"><span class="glyph">⭐</span>High Value
+                  <div class="tooltip"><strong>High Value</strong><span>This is one of the strongest all-round products in the set: high multiplier, meaningful same-product repeat, and material cross-catalog contribution.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 60%;">21 €</span><span class="segment entry" style="width: 10%;"></span><span class="segment cross" style="width: 11%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-14"></div></td>
+              <td class="asin-code">B0D1P51L46</td>
+              <td class="product-name">INGA - kit famille, plus large panier...</td>
+              <td class="metric-cell">73</td>
+              <td class="money-cell">28 €</td>
+              <td><div class="mult-pill">1.22x</div></td>
+              <td class="role-cell">
+                <div class="badge catalog-gateway" tabindex="0"><span class="glyph">🌐</span>Catalog Gateway
+                  <div class="tooltip"><strong>Catalog Gateway</strong><span>This ASIN seems to bring customers in and then lead them into the rest of the catalog rather than concentrating value in itself.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 53%;">15 €</span><span class="segment entry" style="width: 6%;"></span><span class="segment cross" style="width: 13%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-15"></div></td>
+              <td class="asin-code">B0D1P5A9RM</td>
+              <td class="product-name">INGA - pack saisonnier, usage ponctuel...</td>
+              <td class="metric-cell">61</td>
+              <td class="money-cell">16 €</td>
+              <td><div class="mult-pill">1.08x</div></td>
+              <td class="role-cell">
+                <div class="badge no-tag" tabindex="0"><span class="glyph">—</span>No tag
+                  <div class="tooltip"><strong>No tag</strong><span>There is not enough history to compute this confidently. The UI should make the limitation explicit rather than imply a pattern.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 40%;">8 €</span><span class="segment entry" style="width: 5%;"></span><span class="segment cross" style="width: 4%;"></span></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="thumb b-16"></div></td>
+              <td class="asin-code">B0D1P5Q8KD</td>
+              <td class="product-name">INGA - best-seller variant, retention-led...</td>
+              <td class="metric-cell">45</td>
+              <td class="money-cell">35 €</td>
+              <td><div class="mult-pill">1.35x</div></td>
+              <td class="role-cell">
+                <div class="badge loyalty-builder" tabindex="0"><span class="glyph">🔁</span>Loyalty Builder
+                  <div class="tooltip"><strong>Loyalty Builder</strong><span>Customers are coming back to this same ASIN more than they are drifting into other products, making it a natural retention candidate.</span></div>
+                </div>
+              </td>
+              <td><div class="breakdown" title="LTV Breakdown: 1st Purchase, Entry Repeat, and Cross Repeat are represented by the stacked bar."><div class="bar"><span class="segment first" style="width: 58%;">22 €</span><span class="segment entry" style="width: 9%;"></span><span class="segment cross" style="width: 12%;"></span></div></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-footer">
+          <div>Hover any role badge for row-specific rationale. Each breakdown cell now carries its own tooltip.</div>
+          <div class="future-chip"><strong>Future:</strong> role filter chip can sit above the table without changing structure.</div>
+        </div>
+      </div>
+        </div>
+      </div>
+  </div>
+</body>
+</html>

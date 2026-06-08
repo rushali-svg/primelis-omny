@@ -1,0 +1,19 @@
+{
+  "id": "concept-01",
+  "concept": "concept-01",
+  "iteration": null,
+  "label": "Product Role Column",
+  "author": "Codex",
+  "createdAt": "2026-06-07",
+  "status": "experimental",
+  "tags": ["experimental"],
+  "description": "Adds a computed Product Role column to the Cohort per ASIN table so users can scan ASIN behavior without reading the breakdown bars in detail.",
+  "lineage": {
+    "source": "cohort-per-asin-product-role-column.md",
+    "parent": null
+  },
+  "supersedes": null,
+  "presentationGroup": null,
+  "changesFromPrevious": [],
+  "feedbackAddressed": []
+}

@@ -4,9 +4,9 @@
 Customer Insights is a family of related internal analytics views centered on customer value, customer mix, and data reliability. The feature should be organized as a small set of tightly related surfaces rather than a single overloaded dashboard.
 
 ## Main Surfaces
-- LTV tab
-- Customer breakdown / cohort tab
-- LTV per ASIN tab
+- Dashboard - Link to the figma file - https://www.figma.com/design/matyczg7w95YVkE0J261LG/Customer-Insights---Omny?node-id=443-268&t=liU0N9UbuXwtID3T-11
+- LTV tab - Link to the figma file - https://www.figma.com/design/matyczg7w95YVkE0J261LG/Customer-Insights---Omny?node-id=775-5149&t=liU0N9UbuXwtID3T-11
+- LTV/cohort per ASIN tab
 
 ## LTV per ASIN Tab Structure
 - Header controls
